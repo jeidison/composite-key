@@ -24,7 +24,7 @@ trait CompositeKey
 
     public static function find($ids, $columns = ['*'])
     {
-        $me    = new self;
+        $me = new self;
         $query = $me->newQuery();
         if (!is_array($ids) && !is_array($me->getKeyName())) {
             $query->where($me->getKeyName(), '=', $ids);
@@ -34,6 +34,24 @@ trait CompositeKey
             }
         }
         return $query->first($columns);
+    }
+
+    public static function findMany($id, $columns = array('*'))
+    {
+        $me = new self;
+        $query = $me->newQuery();
+        if (!is_array($me->getQualifiedKeyName())) {
+            if (empty($id))
+                return $me->newCollection();
+
+            $query->whereIn($me->getQualifiedKeyName(), $id);
+            return $me->get($columns);
+        } else {
+            foreach ($id as $i => $key) {
+                $query->where($me->getQualifiedKeyName()[$i], '=', $key);
+            }
+            return $me->first($columns);
+        }
     }
 
     protected function getKeyForSaveQuery()
