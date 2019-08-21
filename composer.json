@@ -1,0 +1,27 @@
+{
+    "name": "jeidison/composite-key",
+    "description": "Laravel composite key",
+    "type": "library",
+    "keywords": ["Laravel", "Composite Key"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeidison Farias",
+            "email": "jeidison.farias@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Jeidison\\CompositeKey\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7",
+        "illuminate/database": "5.*",
+        "awobaz/compoships": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7"
+    }
+}
