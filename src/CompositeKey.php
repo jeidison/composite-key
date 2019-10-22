@@ -4,11 +4,41 @@ namespace Jeidison\CompositeKey;
 
 use Exception;
 use Awobaz\Compoships\Compoships;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 trait CompositeKey
 {
     use Compoships;
+
+    public function getIncrementing()
+    {
+        return false;
+    }
+
+    public function getKeyType()
+    {
+        return 'array';
+    }
+
+    public function fresh($with = [])
+    {
+        if (!$this->exists) {
+            return;
+        }
+
+        return static::newQueryWithoutScopes()
+            ->with(is_string($with) ? func_get_args() : $with)
+            ->where(function ($query) {
+                if (!is_array($this->getQualifiedKeyName())) {
+                    $query->where($this->getKeyName(), $this->getKey());
+                } else {
+                    foreach ($this->getKeyName() as $key) {
+                        $query->where($this->getKey());
+                    }
+                }
+            })
+            ->first();
+    }
 
     protected function setKeysForSaveQuery(Builder $query)
     {
@@ -33,6 +63,7 @@ trait CompositeKey
                 $query->where($key, '=', $ids[$key]);
             }
         }
+
         return $query->first($columns);
     }
 
@@ -41,16 +72,19 @@ trait CompositeKey
         $me = new self;
         $query = $me->newQuery();
         if (!is_array($me->getQualifiedKeyName())) {
+            $id = $id instanceof Arrayable ? $id->toArray() : $id;
             if (empty($id))
                 return $me->newCollection();
 
-            $query->whereIn($me->getQualifiedKeyName(), $id);
-            return $me->get($columns);
+            $query->whereKey($id)->get($columns);
         } else {
-            foreach ($id as $i => $key) {
-                $query->where($me->getQualifiedKeyName()[$i], '=', $key);
+            foreach ($id as $item) {
+                $query->orWhere(function ($q) use($item) {
+                    $q->where($item);
+                });
             }
-            return $me->first($columns);
+
+            return $query->get($columns);
         }
     }
 
@@ -61,6 +95,10 @@ trait CompositeKey
 
     public function getKey()
     {
+        if (!is_array($this->getQualifiedKeyName())) {
+            return $this->getAttribute($this->getKeyName());
+        }
+
         return array_reduce($this->getKeyName(), function ($result, $item) {
             $result[$item] = $this->getAttribute($item);
             return $result;
