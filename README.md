@@ -65,18 +65,6 @@ class MyClass extends Model
     }
 ```
 
-- FirstOrCreate
-
-```php
-    // Not implemented
-```
-
-- FirstOrNew
-
-```php
-    // Not implemented
-```
-
 - FindMany
 
 ```php
@@ -127,6 +115,66 @@ class MyClass extends Model
         // or 
         $count = Anything::destroy([['c1' => 1, 'c2' => 2], ['a1' => 1, 'a2' => 2]]);
     }
+```
+
+- FirstOrCreate
+
+```php
+    // Not implemented
+```
+
+- FirstOrNew
+
+```php
+    // Not implemented
+```
+
+- IncrementOrDecrement
+
+```php
+    // Not implemented
+```
+
+- Eloquent\Collection::find
+
+```php
+    // Not implemented
+```
+
+- Eloquent\Collection::fresh
+
+```php
+    // Not implemented
+```
+
+- Authenticatable::getAuthIdentifierName
+
+```php
+    // Not implemented
+```
+
+- Authenticatable::getAuthIdentifier
+
+```php
+    // Not implemented
+```
+
+- Model::getRouteKey
+
+```php
+    // Not implemented
+```
+
+- Model::getRouteKeyName
+
+```php
+    // Not implemented
+```
+
+- SerializesAndRestoresModelIdentifiers
+
+```php
+    // Not implemented
 ```
 
 ## Authors
