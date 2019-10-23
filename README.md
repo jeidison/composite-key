@@ -112,6 +112,8 @@ class MyClass extends Model
     public function index()
     {
         $count = Anything::destroy(['c1' => 1, 'c2' => 2]);
+        // or 
+        $count = Anything::destroy([['c1' => 1, 'c2' => 2], ['a1' => 1, 'a2' => 2]]);
     }
 ```
 
