@@ -15,7 +15,7 @@ $ composer require jeidison/composite-key
 
 Add Trait of your model
 
-- Relationships
+- Relationships ([Compoships](https://github.com/topclaudy/compoships))
 
 ```php
 namespace App;
@@ -54,7 +54,7 @@ class MyClass extends Model
     }
 ```
 
-- Find Or Fail
+- FindOrFail
 
 ```php
     public function index()
@@ -63,6 +63,18 @@ class MyClass extends Model
         // or 
         $anyWhatever = Anything::findOrFail(['c1' => 1, 'c2' => 2]);
     }
+```
+
+- FirstOrCreate
+
+```php
+    // Not implemented
+```
+
+- FirstOrNew
+
+```php
+    // Not implemented
 ```
 
 - FindMany
