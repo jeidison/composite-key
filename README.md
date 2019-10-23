@@ -96,6 +96,25 @@ class MyClass extends Model
     }
 ```
 
+- Model Delete
+
+```php
+    public function index()
+    {
+        $anyWhatever      = Anything::find(1);
+        $freshAnyWhatever = $anyWhatever->delete();
+    }
+```
+
+- Model Destroy
+
+```php
+    public function index()
+    {
+        $count = Anything::destroy(['c1' => 1, 'c2' => 2]);
+    }
+```
+
 ## Authors
 
 * [Jeidison Farias](https://github.com/jeidison)
