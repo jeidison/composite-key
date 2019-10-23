@@ -53,13 +53,13 @@ trait CompositeKey
     public function fresh($with = [])
     {
         if (!$this->exists) {
-            return;
+            return null;
         }
 
         return static::newQueryWithoutScopes()
             ->with(is_string($with) ? func_get_args() : $with)
             ->where(function ($query) {
-                if (!is_array($this->getQualifiedKeyName())) {
+                if (!is_array($this->getKeyName())) {
                     $query->where($this->getKeyName(), $this->getKey());
                 } else {
                     foreach ($this->getKeyName() as $key) {
@@ -86,8 +86,13 @@ trait CompositeKey
     {
         $me = new self;
         $query = $me->newQuery();
-        if (!is_array($ids) && !is_array($me->getKeyName())) {
-            $query->where($me->getKeyName(), '=', $ids);
+        if (!is_array($me->getKeyName())) {
+
+            if (is_array($ids) || $ids instanceof Arrayable) {
+                return self::findMany($ids, $columns);
+            }
+
+            $query->whereKey($ids)->first($columns);
         } else {
             foreach ($me->getKeyName() as $key) {
                 $query->where($key, '=', $ids[$key]);
@@ -101,12 +106,12 @@ trait CompositeKey
     {
         $me = new self;
         $query = $me->newQuery();
-        if (!is_array($me->getQualifiedKeyName())) {
+        if (!is_array($me->getKeyName())) {
             $id = $id instanceof Arrayable ? $id->toArray() : $id;
-            if (empty($id))
-                return $me->newCollection();
-
-            $query->whereKey($id)->get($columns);
+            if (empty($id)) {
+                return $query->model->newCollection();
+            }
+            return $query->whereKey($id)->get($columns);
         } else {
             foreach ($id as $item) {
                 $query->orWhere(function ($q) use($item) {
@@ -125,7 +130,7 @@ trait CompositeKey
 
     public function getKey()
     {
-        if (!is_array($this->getQualifiedKeyName())) {
+        if (!is_array($this->getKeyName())) {
             return $this->getAttribute($this->getKeyName());
         }
 
