@@ -7,6 +7,7 @@ use Awobaz\Compoships\Compoships;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Collection as BaseCollection;
 
 trait CompositeKey
 {
@@ -20,6 +21,55 @@ trait CompositeKey
     public function getKeyType()
     {
         return 'array';
+    }
+
+    public static function destroy($ids)
+    {
+        $me = new static();
+        $count = 0;
+        if (!is_array($me->getKeyName())) {
+            if ($ids instanceof BaseCollection) {
+                $ids = $ids->all();
+            }
+
+            $ids = is_array($ids) ? $ids : func_get_args();
+            $key = $me->getKeyName();
+            foreach ($me->whereIn($key, $ids)->get() as $model) {
+                if ($model->delete()) {
+                    $count++;
+                }
+            }
+            return $count;
+        } else {
+            if (self::isArrayMulti($ids)) {
+                $model = self::findMany($ids);
+            } else {
+                $model = self::find($ids);
+            }
+
+            if ($model instanceof BaseCollection) {
+
+                $model->each(function ($item) use (&$count) {
+                    if ($item->delete()) {
+                        $count++;
+                    }
+                });
+
+            } else {
+                if ($model->delete()) {
+                    $count++;
+                }
+            }
+
+            return $count;
+        }
+    }
+
+    private static function isArrayMulti($arr) {
+        $rv = array_filter($arr,'is_array');
+        if(count($rv)>0)
+            return true;
+        return false;
     }
 
     public function refresh()
