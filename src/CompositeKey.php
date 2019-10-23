@@ -4,7 +4,9 @@ namespace Jeidison\CompositeKey;
 
 use Exception;
 use Awobaz\Compoships\Compoships;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 trait CompositeKey
 {
@@ -18,6 +20,34 @@ trait CompositeKey
     public function getKeyType()
     {
         return 'array';
+    }
+
+    public function refresh()
+    {
+        if (!is_array($this->getKeyName())) {
+            return parent::refresh();
+        }
+
+        if (!$this->exists) {
+            return $this;
+        }
+        $this->setRawAttributes(
+            static::findOrFail($this->getKey())->attributes
+        );
+        $this->load(collect($this->relations)->except('pivot')->keys()->toArray());
+        return $this;
+    }
+
+    public static function findOrFail($ids, $columns = ['*'])
+    {
+        $result = self::find($ids, $columns);
+        if (!is_null($result)) {
+            return $result;
+        }
+
+        throw (new ModelNotFoundException)->setModel(
+            __CLASS__, $ids
+        );
     }
 
     public function fresh($with = [])
