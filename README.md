@@ -54,6 +54,17 @@ class MyClass extends Model
     }
 ```
 
+- Find Or Fail
+
+```php
+    public function index()
+    {
+        $anyWhatever = Anything::findOrFail(1);
+        // or 
+        $anyWhatever = Anything::findOrFail(['c1' => 1, 'c2' => 2]);
+    }
+```
+
 - FindMany
 
 ```php
@@ -72,6 +83,16 @@ class MyClass extends Model
     {
         $anyWhatever      = Anything::find(1);
         $freshAnyWhatever = $anyWhatever->fresh();
+    }
+```
+
+- Model Refresh
+
+```php
+    public function index()
+    {
+        $anyWhatever      = Anything::find(1);
+        $freshAnyWhatever = $anyWhatever->refresh();
     }
 ```
 
