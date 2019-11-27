@@ -120,13 +120,23 @@ class MyClass extends Model
 - FirstOrCreate
 
 ```php
-    // Not implemented
+    $flight = App\Flight::firstOrCreate(['name' => 'Flight 10']);
+    
+    $flight = App\Flight::firstOrCreate(
+        ['name' => 'Flight 10'],
+        ['delayed' => 1, 'arrival_time' => '11:30']
+    );
 ```
 
 - FirstOrNew
 
 ```php
-    // Not implemented
+    $flight = App\Flight::firstOrNew(['name' => 'Flight 10']);
+    
+    $flight = App\Flight::firstOrNew(
+        ['name' => 'Flight 10'],
+        ['delayed' => 1, 'arrival_time' => '11:30']
+    );
 ```
 
 - IncrementOrDecrement
