@@ -122,6 +122,11 @@ trait CompositeKey
 
     protected function setKeysForSaveQuery(Builder $query)
     {
+        if (!is_array($this->getKeyName())) {
+            $query->where($this->getKeyName(), '=', $this->getKeyForSaveQuery());
+            return $query;
+        }
+        
         foreach ($this->getKeyName() as $key) {
             if (isset($this->$key)) {
                 $query->where($key, '=', $this->original[$key] ?? $this->$key);
