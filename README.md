@@ -26,19 +26,19 @@ class MyClass extends Model
 {
     use Jeidison\CompositeKey\CompositeKey;
     
-    public function anyWhatever()
+    public function modelX()
     {
-        return $this->hasMany(Anything::class, ['c1', 'c2'], ['a1', 'a2']);
+        return $this->hasMany(ModelX::class, ['c1', 'c2'], ['a1', 'a2']);
     }
     
-    public function anyWhatever1()
+    public function modelX1()
     {
-        return $this->hasOne(Anything::class, ['c1', 'c2'], ['a1', 'a2']);
+        return $this->hasOne(ModelX::class, ['c1', 'c2'], ['a1', 'a2']);
     }
     
-    public function anyWhatever2()
+    public function modelX2()
     {
-        return $this->belongsTo(Anything::class, ['c1', 'c2'], ['a1', 'a2']);
+        return $this->belongsTo(ModelX::class, ['c1', 'c2'], ['a1', 'a2']);
     }
 }
 ```
@@ -48,9 +48,9 @@ class MyClass extends Model
 ```php
     public function index()
     {
-        $anyWhatever = Anything::find(1);
+        $modelX = ModelX::find(1);
         // or 
-        $anyWhatever = Anything::find(['c1' => 1, 'c2' => 2]);
+        $modelX = ModelX::find(['c1' => 1, 'c2' => 2]);
     }
 ```
 
@@ -59,9 +59,9 @@ class MyClass extends Model
 ```php
     public function index()
     {
-        $anyWhatever = Anything::findOrFail(1);
+        $modelX = ModelX::findOrFail(1);
         // or 
-        $anyWhatever = Anything::findOrFail(['c1' => 1, 'c2' => 2]);
+        $modelX = ModelX::findOrFail(['c1' => 1, 'c2' => 2]);
     }
 ```
 
@@ -70,9 +70,9 @@ class MyClass extends Model
 ```php
     public function index()
     {
-        $anyWhatever = Anything::findMany([['c1' => 1, 'c2' => 2]]);
+        $modelX = ModelX::findMany([['c1' => 1, 'c2' => 2]]);
         // or 
-        $anyWhatever = Anything::findMany([['c1' => 1, 'c2' => 2], ['a1' => 1, 'a2' => 2]]);
+        $modelX = ModelX::findMany([['c1' => 1, 'c2' => 2], ['a1' => 1, 'a2' => 2]]);
     }
 ```
 
@@ -81,8 +81,8 @@ class MyClass extends Model
 ```php
     public function index()
     {
-        $anyWhatever      = Anything::find(1);
-        $freshAnyWhatever = $anyWhatever->fresh();
+        $modelX      = ModelX::find(1);
+        $freshModelX = $modelX->fresh();
     }
 ```
 
@@ -101,8 +101,8 @@ class MyClass extends Model
 ```php
     public function index()
     {
-        $anyWhatever      = Anything::find(1);
-        $freshAnyWhatever = $anyWhatever->delete();
+        $modelX = ModelX::find(1);
+        $modelX->delete();
     }
 ```
 
@@ -111,19 +111,19 @@ class MyClass extends Model
 ```php
     public function index()
     {
-        $count = Anything::destroy(['c1' => 1, 'c2' => 2]);
+        $count = ModelX::destroy(['c1' => 1, 'c2' => 2]);
         // or 
-        $count = Anything::destroy([['c1' => 1, 'c2' => 2], ['a1' => 1, 'a2' => 2]]);
+        $count = ModelX::destroy([['c1' => 1, 'c2' => 2], ['a1' => 1, 'a2' => 2]]);
     }
 ```
 
 - FirstOrCreate
 
 ```php
-    $flight = App\Flight::firstOrCreate(['name' => 'Flight 10']);
+    $modelX = ModelX::firstOrCreate(['name' => 'Test 10']);
     
-    $flight = App\Flight::firstOrCreate(
-        ['name' => 'Flight 10'],
+    $modelX = ModelX::firstOrCreate(
+        ['name' => 'Test 10'],
         ['delayed' => 1, 'arrival_time' => '11:30']
     );
 ```
@@ -131,10 +131,10 @@ class MyClass extends Model
 - FirstOrNew
 
 ```php
-    $flight = App\Flight::firstOrNew(['name' => 'Flight 10']);
+    $modelX = ModelX::firstOrNew(['name' => 'Test 10']);
     
-    $flight = App\Flight::firstOrNew(
-        ['name' => 'Flight 10'],
+    $modelX = ModelX::firstOrNew(
+        ['name' => 'Test 10'],
         ['delayed' => 1, 'arrival_time' => '11:30']
     );
 ```
