@@ -17,8 +17,7 @@
         }
     },
     "require": {
-        "php": ">=7",
-        "awobaz/compoships": "*"
+        "php": "^7.0|^8.0"
     },
     "require-dev": {
         "phpunit/phpunit": "*"
