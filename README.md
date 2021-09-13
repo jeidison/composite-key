@@ -15,8 +15,6 @@ $ composer require jeidison/composite-key
 
 Add Trait of your model
 
-- Relationships ([Compoships](https://github.com/topclaudy/compoships))
-
 ```php
 namespace App;
 
@@ -26,20 +24,7 @@ class MyClass extends Model
 {
     use Jeidison\CompositeKey\CompositeKey;
     
-    public function modelX()
-    {
-        return $this->hasMany(ModelX::class, ['c1', 'c2'], ['a1', 'a2']);
-    }
-    
-    public function modelX1()
-    {
-        return $this->hasOne(ModelX::class, ['c1', 'c2'], ['a1', 'a2']);
-    }
-    
-    public function modelX2()
-    {
-        return $this->belongsTo(ModelX::class, ['c1', 'c2'], ['a1', 'a2']);
-    }
+    ...
 }
 ```
 
