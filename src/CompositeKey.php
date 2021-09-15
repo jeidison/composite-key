@@ -3,7 +3,6 @@
 namespace Jeidison\CompositeKey;
 
 use Exception;
-use Awobaz\Compoships\Compoships;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -11,7 +10,6 @@ use Illuminate\Support\Collection as BaseCollection;
 
 trait CompositeKey
 {
-    use Compoships;
 
     public function getIncrementing()
     {
